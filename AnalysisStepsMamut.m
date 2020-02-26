@@ -1,4 +1,4 @@
-function [abnormal_axes,steps_analysis,t_test_scores]=AnalysisStepsMamut(Data)
+function [t_test_scores]=AnalysisStepsMamut(Data)
 %% extract the data and calculate intervals
 allsteps = Data.jmp_Length_corr;
 x = Data.jmp_corr(:,1);
@@ -19,16 +19,16 @@ y_boundaries = icdf('Normal',boundaries,y_mean,y_sd);
 z_boundaries = icdf('Normal',boundaries,z_mean,z_sd);
 
 %% plot the histogram of the steps
-figure(1);
-clf
-subplot(2,3,1:3);
-histogram(allsteps);
-subplot(2,3,4);
-histogram(x)
-subplot(2,3,5);
-histogram(y)
-subplot(2,3,6);
-histogram(z)
+% figure(1);
+% clf
+% subplot(2,3,1:3);
+% histogram(allsteps);
+% subplot(2,3,4);
+% histogram(x)
+% subplot(2,3,5);
+% histogram(y)
+% subplot(2,3,6);
+% histogram(z)
 
 %% calculate t-test-scores
 t_test_scores = table('Size',[length(tracks) 5],'VariableTypes',{'string','double','double','double','double'},...
@@ -61,8 +61,6 @@ end
 t_test_scores.xnumbers = xnumbers;
 t_test_scores.ynumbers = ynumbers;
 t_test_scores.znumbers = znumbers;
-%abnormal indicates number of tracks with normal behavior, with abnormal
-%behavioer
-abnormal_axes= [height(t_test_scores)-sum(t_test_scores.anormal_axes), sum(t_test_scores.anormal_axes),1-sum(t_test_scores.anormal_axes)/height(t_test_scores),sum(t_test_scores.anormal_axes)/height(t_test_scores)];
-steps_analysis = 0;
-%assignin('base','t_test_scores',t_test_scores)
+
+%% filter out any track with negative track ID (as it is a mistake)
+t_test_scores = t_test_scores(t_test_scores.track > 0,:);
