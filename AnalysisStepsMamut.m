@@ -63,4 +63,4 @@ t_test_scores.ynumbers = ynumbers;
 t_test_scores.znumbers = znumbers;
 
 %% filter out any track with negative track ID (as it is a mistake)
-t_test_scores = t_test_scores(t_test_scores.track > 0,:);
+%t_test_scores = t_test_scores(t_test_scores.track > 0,:);
